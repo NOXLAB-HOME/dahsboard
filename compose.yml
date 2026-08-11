@@ -17,3 +17,5 @@ services:
       - "traefik.http.routers.homer.tls=true"
       - "traefik.http.routers.homer.middlewares=auth"
       - "traefik.http.services.homer.loadbalancer.server.port=8080"
+    networks:
+        - proxy
