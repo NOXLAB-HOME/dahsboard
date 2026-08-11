@@ -4,9 +4,16 @@ services:
     container_name: homer
     volumes:
       - ./config/:/www/assets # Make sure your local config directory exists
-    ports:
-      - 8080:8080
+    expose:
+      - "8080"
     user: 1000:1000 # default
     environment:
-      - INIT_ASSETS=0 # default, requires the config directory to be writable for the container user (see user option)
+      - INIT_ASSETS=1 # default, requires the config directory to be writable for the container user (see user option)
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homer.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.homer.entrypoints=websecure"
+      - "traefik.http.routers.homer.tls=true"
+      - "traefik.http.routers.homer.middlewares=auth"
+      - "traefik.http.services.homer.loadbalancer.server.port=8080"
