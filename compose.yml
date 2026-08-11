@@ -19,3 +19,7 @@ services:
       - "traefik.http.services.homer.loadbalancer.server.port=8080"
     networks:
         - proxy
+
+networks:
+  proxy:
+    external: true
